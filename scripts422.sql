@@ -12,23 +12,18 @@ CREATE TABLE Car (
     id SERIAL PRIMARY KEY,
     brand VARCHAR(255) NOT NULL,
     model VARCHAR(255) NOT NULL,
-    cost DECIMAL(10, 2) NOT NULL
-);
-
--- Создание таблицы для связи между Person и Car (многие-ко-многим)
-CREATE TABLE PersonCar (
-    person_id INT REFERENCES Person(id),
-    car_id INT REFERENCES Car(id),
-    PRIMARY KEY (person_id, car_id)
+    cost DECIMAL(10, 2) NOT NULL,
+    owner_id INT REFERENCES Person(id)
 );
 
 -- Шаг 3
 -- JOIN-запрос для получения информации о студентах с их факультетами
-SELECT s.name AS student_name, s.age AS student_age, f.name AS faculty_name
-FROM Student s
-JOIN Faculty f ON s.faculty_id = f.id;
+SELECT Student.name, Student.age, Faculty.name AS faculty_name
+FROM Student
+INNER JOIN Faculty ON Student.faculty_id = Faculty.id;
 
 -- JOIN-запрос для получения студентов с аватарками
-SELECT s.name AS student_name, s.age AS student_age
-FROM Student s
-JOIN Avatar a ON s.id = a.student_id;
+SELECT Student.name, Student.age
+FROM Student
+INNER JOIN Avatar ON Student.id = Avatar.student_id;
+
